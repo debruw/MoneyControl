@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - MoneyGroup
+  - MoneyTaker
+  - MoneyPile
   layers:
   - Default
   - TransparentFX

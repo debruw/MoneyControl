@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))
         {
-            //splineFollower.followSpeed = xSpeed;
+            splineFollower.followSpeed = xSpeed;
         }
         else if (Input.GetMouseButton(0))
         {
