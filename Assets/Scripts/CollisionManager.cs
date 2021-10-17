@@ -34,7 +34,7 @@ public class CollisionManager : MonoBehaviour
         {
             if (Vector3.Distance(MoneyPiles[0].transform.position, cart.position) > distance)
             {
-                Vector3 targetPosition = new Vector3(cart.position.x, cart.position.y + distance, cart.position.z);
+                Vector3 targetPosition = new Vector3(cart.position.x, FirstPilePosition.position.y, cart.position.z);
 
                 MoneyPiles[0].transform.position = Vector3.SmoothDamp(MoneyPiles[0].transform.position, targetPosition, ref velocity, smoothTime);
             }
@@ -57,6 +57,7 @@ public class CollisionManager : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             MoneyPilesPool[0].transform.position = new Vector3(FirstPilePosition.position.x, FirstPilePosition.position.y + (index * distance), FirstPilePosition.position.z);
+            MoneyPilesPool[0].transform.eulerAngles = new Vector3(MoneyPilesPool[0].transform.eulerAngles.x, Random.Range(-45, 45), MoneyPilesPool[0].transform.eulerAngles.z);
             MoneyPilesPool[0].SetActive(true);
             MoneyPiles.Add(MoneyPilesPool[0]);
             MoneyPilesPool.RemoveAt(0);
