@@ -34,7 +34,7 @@ public class CollisionManager : MonoBehaviour
         {
             if (Vector3.Distance(MoneyPiles[0].transform.position, cart.position) > distance)
             {
-                Vector3 targetPosition = new Vector3(cart.position.x, MoneyPiles[0].transform.position.y, cart.position.z);
+                Vector3 targetPosition = new Vector3(cart.position.x, cart.position.y + distance, cart.position.z);
 
                 MoneyPiles[0].transform.position = Vector3.SmoothDamp(MoneyPiles[0].transform.position, targetPosition, ref velocity, smoothTime);
             }
@@ -43,13 +43,12 @@ public class CollisionManager : MonoBehaviour
         {
             if (Vector3.Distance(MoneyPiles[i - 1].transform.position, MoneyPiles[i].transform.position) > distance)
             {
-                Vector3 targetPosition = new Vector3(MoneyPiles[i - 1].transform.position.x, MoneyPiles[i].transform.position.y, MoneyPiles[i - 1].transform.position.z);
+                Vector3 targetPosition = new Vector3(MoneyPiles[i - 1].transform.position.x, MoneyPiles[i - 1].transform.position.y + distance, MoneyPiles[i - 1].transform.position.z);
 
                 MoneyPiles[i].transform.position = Vector3.SmoothDamp(MoneyPiles[i].transform.position, targetPosition, ref velocity, smoothTime);
             }
         }
     }
-
     int index;
 
     private void OnTriggerEnter(Collider other)
@@ -63,10 +62,5 @@ public class CollisionManager : MonoBehaviour
             MoneyPilesPool.RemoveAt(0);
             index++;
         }
-    }
-
-    public void RearrangePiles()
-    {
-
     }
 }

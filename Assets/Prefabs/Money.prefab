@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4939748863636571179}
   m_Layer: 0
   m_Name: Money
-  m_TagString: Untagged
+  m_TagString: MoneyGroup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,11 +28,11 @@ Transform:
   m_GameObject: {fileID: 6017304822553679371}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -35, z: 30}
 --- !u!33 &8027043888612098836
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6017304822553679371}
-  m_Mesh: {fileID: -2929563531361107545, guid: 0ed038763e0a5034d93d26c0f3709276, type: 3}
+  m_Mesh: {fileID: -86509925051539371, guid: 0796ccbf1eaf3b14f8feed46a75389d8, type: 3}
 --- !u!23 &5224525946134018014
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59,9 +59,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 83678622f26de0b4d92fe11c6bc353a8, type: 2}
-  - {fileID: 2100000, guid: 5a2ce8592ea68404eb81bc29ceacf1ff, type: 2}
   - {fileID: 2100000, guid: ea41525e03c6a10419e942f6aa79d66b, type: 2}
+  - {fileID: 2100000, guid: 5a2ce8592ea68404eb81bc29ceacf1ff, type: 2}
+  - {fileID: 2100000, guid: 83678622f26de0b4d92fe11c6bc353a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
