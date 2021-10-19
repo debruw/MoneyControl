@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: EyeBaby
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: abcb2d36fb9249d4db6615124608ea4e, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
@@ -65,6 +65,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _DstBlendTCP2: 10
     - _EnableExternalAlpha: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
@@ -73,13 +74,19 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _RampSmooth: 0.001
+    - _RampThreshold: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _SrcBlendTCP2: 5
     - _UVSec: 0
     - _ZWrite: 1
+    - __dummy__: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _HColor: {r: 0.785, g: 0.785, b: 0.785, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SColor: {r: 0.19499996, g: 0.19499996, b: 0.19499996, a: 1}

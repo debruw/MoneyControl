@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CollisionManager : MonoBehaviour
 {
@@ -55,13 +56,34 @@ public class CollisionManager : MonoBehaviour
     {
         if (other.CompareTag("MoneyGroup"))
         {
-            other.gameObject.SetActive(false);
-            MoneyPilesPool[0].transform.position = new Vector3(FirstPilePosition.position.x, FirstPilePosition.position.y + (index * distance), FirstPilePosition.position.z);
-            MoneyPilesPool[0].transform.eulerAngles = new Vector3(MoneyPilesPool[0].transform.eulerAngles.x, Random.Range(-45, 45), MoneyPilesPool[0].transform.eulerAngles.z);
-            MoneyPilesPool[0].SetActive(true);
-            MoneyPiles.Add(MoneyPilesPool[0]);
-            MoneyPilesPool.RemoveAt(0);
-            index++;
+            other.transform.parent = transform;
+            if (MoneyPiles.Count > 0)
+            {
+                other.transform.DOMoveY(MoneyPiles[MoneyPiles.Count - 1].transform.position.y + distance, .2f).OnComplete(() =>
+                {
+                    other.gameObject.SetActive(false);
+                    MoneyPilesPool[0].transform.position = new Vector3(FirstPilePosition.position.x, FirstPilePosition.position.y + (index * distance), FirstPilePosition.position.z);
+                    MoneyPilesPool[0].transform.eulerAngles = new Vector3(MoneyPilesPool[0].transform.eulerAngles.x, Random.Range(-45, 45), MoneyPilesPool[0].transform.eulerAngles.z);
+                    MoneyPilesPool[0].SetActive(true);
+                    MoneyPiles.Add(MoneyPilesPool[0]);
+                    MoneyPilesPool.RemoveAt(0);
+                    index++;
+                });
+            }
+            else
+            {
+                other.transform.DOMoveY(FirstPilePosition.transform.position.y + distance, .2f).OnComplete(() =>
+                {
+                    other.gameObject.SetActive(false);
+                    MoneyPilesPool[0].transform.position = new Vector3(FirstPilePosition.position.x, FirstPilePosition.position.y + (index * distance), FirstPilePosition.position.z);
+                    MoneyPilesPool[0].transform.eulerAngles = new Vector3(MoneyPilesPool[0].transform.eulerAngles.x, Random.Range(-45, 45), MoneyPilesPool[0].transform.eulerAngles.z);
+                    MoneyPilesPool[0].SetActive(true);
+                    MoneyPiles.Add(MoneyPilesPool[0]);
+                    MoneyPilesPool.RemoveAt(0);
+                    index++;
+                });
+            }
+            
         }
     }
 }

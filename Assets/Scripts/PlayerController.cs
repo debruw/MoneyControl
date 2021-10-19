@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Touch touch;
     public SplineFollower splineFollower;
     public float xSpeed = 15, zSpeed = 10;
+    public Animator playerAnimator;
 
     void Update()
     {
@@ -19,6 +20,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             splineFollower.followSpeed = zSpeed;
+            Debug.Log(playerAnimator.GetBool("isrunning"));
+            playerAnimator.SetBool("isRunning", true);
+            Debug.Log(playerAnimator.GetBool("isRunning"));
         }
         else if (Input.GetMouseButton(0))
         {
@@ -30,6 +34,7 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             splineFollower.followSpeed = 0;
+            playerAnimator.SetBool("isRunning", false);
         }
 
 #elif UNITY_IOS || UNITY_ANDROID
