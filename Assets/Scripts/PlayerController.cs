@@ -20,16 +20,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             splineFollower.followSpeed = zSpeed;
-            Debug.Log(playerAnimator.GetBool("isrunning"));
             playerAnimator.SetBool("isRunning", true);
-            Debug.Log(playerAnimator.GetBool("isRunning"));
         }
         else if (Input.GetMouseButton(0))
         {
             Vector3 move = controller.transform.right * Input.GetAxis("Mouse X") * xSpeed;
 
             controller.Move(move * Time.deltaTime);
-            controller.transform.localPosition = new Vector3(Mathf.Clamp(controller.transform.localPosition.x, -3.5f, 3.5f), 0, 0);
+            controller.transform.localPosition = new Vector3(Mathf.Clamp(controller.transform.localPosition.x, -3.4f, 3.4f), 0, 0);
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -45,17 +43,21 @@ public class PlayerController : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
             {
                 splineFollower.followSpeed = xSpeed;
+                playerAnimator.SetBool("isRunning", true);
             }
             else if (touch.phase == TouchPhase.Moved)
             {
-                move += controller.transform.right * Input.GetAxis("Mouse X") * xSpeed;
+                move = controller.transform.right * Input.GetTouch(0).deltaPosition * xSpeed / 8;
+                
+                controller.Move(move * Time.deltaTime);
+                controller.transform.localPosition = new Vector3(Mathf.Clamp(controller.transform.localPosition.x, -3.4f, 3.4f), 0, 0);
             }
             else if (touch.phase == TouchPhase.Ended)
             {
                 splineFollower.followSpeed = 0;
+                playerAnimator.SetBool("isRunning", false);
             }
-            controller.Move(move * Time.deltaTime);
-            controller.transform.localPosition = new Vector3(Mathf.Clamp(controller.transform.localPosition.x, -3.5f, 3.5f), 0, 0);
+            
         }
 #endif
     }
