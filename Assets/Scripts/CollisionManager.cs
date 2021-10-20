@@ -35,7 +35,7 @@ public class CollisionManager : MonoBehaviour
         {
             if (Vector3.Distance(MoneyPiles[0].transform.position, cart.position) > .2f)
             {
-                Vector3 targetPosition = new Vector3(cart.position.x, FirstPilePosition.position.y, cart.position.z);
+                Vector3 targetPosition = new Vector3(FirstPilePosition.position.x, FirstPilePosition.position.y, FirstPilePosition.position.z);
 
                 MoneyPiles[0].transform.position = Vector3.SmoothDamp(MoneyPiles[0].transform.position, targetPosition, ref velocity, smoothTime);
             }
