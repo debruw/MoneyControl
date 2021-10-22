@@ -7,11 +7,12 @@ using UnityEngine.UI;
 public class MoneyTaker : MonoBehaviour
 {
     public int needValue;
-    public Animator UpperBoneAnimator;
+    public Animator UpperBoneAnimator, ToungeAnimator;
     float count;
     float random;
     SkinnedMeshRenderer[] materials;
     public Image image, image2;
+    bool isCounting = true;
 
     private void Start()
     {
@@ -22,11 +23,12 @@ public class MoneyTaker : MonoBehaviour
     private void Update()
     {
         count += Time.deltaTime;
-        if (count > random)
+        if (count > random && isCounting)
         {
             count = 0;
             random = Random.Range(1f, 3f);
             UpperBoneAnimator.SetTrigger("Jump");
+            ToungeAnimator.SetTrigger("MoveTounge");
         }
         if (Vector3.Distance(transform.position, Camera.main.gameObject.transform.position) < 18)
         {
@@ -42,14 +44,28 @@ public class MoneyTaker : MonoBehaviour
         }
     }
 
+
+    List<GameObject> collectedMoneys = new List<GameObject>();
+    public Transform firstmoneyPos;
+    float distance = .25f;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            isCounting = false;
+            GetComponentInChildren<Animator>().SetTrigger("NomNom");
+            GetComponentInParent<MoneyTakerGroup>().DeactivateTakers();
             for (int i = 0; i < needValue; i++)
             {
+                collectedMoneys.Add(CollisionManager.Instance.MoneyPiles[0]);
                 CollisionManager.Instance.MoneyPiles.RemoveAt(0);
+                collectedMoneys[i].transform.parent = firstmoneyPos;
+                collectedMoneys[i].transform.localPosition = new Vector3(0, i * distance, 0);
             }
+            firstmoneyPos.DOMoveZ(firstmoneyPos.position.z + 1, .5f).OnComplete(() =>
+            {
+                firstmoneyPos.gameObject.SetActive(false);
+            });
         }
     }
 }

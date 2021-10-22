@@ -39,14 +39,14 @@ public class CollisionManager : MonoBehaviour
 
                 MoneyPiles[0].transform.position = Vector3.SmoothDamp(MoneyPiles[0].transform.position, targetPosition, ref velocity, smoothTime);
             }
-        }
-        for (int i = 1; i < MoneyPiles.Count; i++)
-        {
-            if (Vector3.Distance(MoneyPiles[i - 1].transform.position, MoneyPiles[i].transform.position) > .2f)
+            for (int i = 1; i < MoneyPiles.Count; i++)
             {
-                Vector3 targetPosition = new Vector3(MoneyPiles[i - 1].transform.position.x, MoneyPiles[i - 1].transform.position.y + distance, MoneyPiles[i - 1].transform.position.z);
-                
-                MoneyPiles[i].transform.position = Vector3.SmoothDamp(MoneyPiles[i].transform.position, targetPosition, ref velocity, smoothTime);
+                if (Vector3.Distance(MoneyPiles[i - 1].transform.position, MoneyPiles[i].transform.position) > .2f)
+                {
+                    Vector3 targetPosition = new Vector3(MoneyPiles[i - 1].transform.position.x, MoneyPiles[i - 1].transform.position.y + distance, MoneyPiles[i - 1].transform.position.z);
+
+                    MoneyPiles[i].transform.position = Vector3.SmoothDamp(MoneyPiles[i].transform.position, targetPosition, ref velocity, smoothTime);
+                }
             }
         }
     }
@@ -58,7 +58,7 @@ public class CollisionManager : MonoBehaviour
         {
             if (MoneyPiles.Count > 0)
             {
-                other.transform.DOMoveY(FirstPilePosition.position.y + distance, .2f).OnComplete(() =>
+                other.transform.DOMoveY(MoneyPiles[MoneyPiles.Count - 1].transform.position.y, .2f).OnComplete(() =>
                 {
                     CollectMoney(other.gameObject, FirstPilePosition.position);
                 });
