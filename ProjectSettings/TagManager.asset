@@ -8,6 +8,7 @@ TagManager:
   - MoneyTaker
   - MoneyPile
   - FinishLine
+  - Money
   layers:
   - Default
   - TransparentFX

@@ -47,15 +47,18 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(0) && ismouseDowned)
         {
             Vector3 move = controller.transform.right * Input.GetAxis("Mouse X") * xSpeed;
-
+            
             if (move.magnitude != 0 && count > 1 && CollisionManager.Instance.MoneyPiles.Count > 0)
             {
                 CreateParticle(CollisionManager.Instance.MoneyPiles[CollisionManager.Instance.MoneyPiles.Count - 1].transform.position);
                 count = 0;
             }
 
-            controller.Move(move * Time.deltaTime);
-            controller.transform.localPosition = new Vector3(Mathf.Clamp(controller.transform.localPosition.x, -3.4f, 3.4f), 0, 0);
+            if (Input.GetAxis("Mouse X") < 1f && Input.GetAxis("Mouse X") > -1f)
+            {
+                controller.Move(move * Time.deltaTime);
+                controller.transform.localPosition = new Vector3(Mathf.Clamp(controller.transform.localPosition.x, -3.4f, 3.4f), 0, 0);
+            }
         }
         if (Input.GetMouseButtonUp(0) && ismouseDowned)
         {

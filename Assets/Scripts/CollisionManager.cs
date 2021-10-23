@@ -110,16 +110,15 @@ public class CollisionManager : MonoBehaviour
         pile3.SetActive(false);
     }
 
-    public Transform piggyBank;
-    public ParticleSystem dollarSign;
+    public Transform piggyBankTarget;
+   
     public IEnumerator MoveMoneysToPiggy()
     {
         for (int i = MoneyPiles.Count - 1; i >= 0; i--)
         {
-            MoneyPiles[i].transform.DOMove(piggyBank.transform.position + new Vector3(0, 3, 0), 1).OnComplete(() =>
-              {
-                  piggyBank.localScale += new Vector3(1.2f / MoneyPiles.Count, 1.2f / MoneyPiles.Count, 1.2f / MoneyPiles.Count);
-              });
+            MoneyPiles[i].GetComponent<Collider>().enabled = true;
+            MoneyPiles[i].tag = "Money";
+            MoneyPiles[i].transform.DOMove(piggyBankTarget.transform.position, 1);
             yield return new WaitForSeconds(.05f);
         }
         pile1.SetActive(false);
@@ -128,7 +127,7 @@ public class CollisionManager : MonoBehaviour
         MoneyPiles[0].transform.parent.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(.5f);
-        piggyBank.gameObject.GetComponent<Animator>().SetTrigger("Jump");
+        piggyBankTarget.gameObject.GetComponentInParent<Animator>().SetTrigger("Jump");
         StartCoroutine(GameManager.Instance.WaitAndGameWin());
     }
 }
