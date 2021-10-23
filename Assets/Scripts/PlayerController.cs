@@ -4,6 +4,7 @@ using UnityEngine;
 using Dreamteck.Splines;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,25 +17,35 @@ public class PlayerController : MonoBehaviour
     public Animator playerAnimator;
     public GameObject moneyParticle;
     float count;
-    bool isGameOver;
+    bool ismouseDowned;
+    public Transform finishLine;
+    public Slider slider;
+    public Image sliderImage;
+    float maxDistance;
+
+    private void Start()
+    {
+        maxDistance = Vector3.Distance(transform.position, finishLine.transform.position);
+    }
 
     void Update()
     {
-        if (isGameOver)
+        if (GameManager.Instance.isGameOver || !GameManager.Instance.isGameStarted)
         {
             splineFollower.followSpeed = 0;
             playerAnimator.SetBool("isRunning", false);
             return;
         }
         count += Time.deltaTime;
-//#if UNITY_EDITOR
+        //#if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))
         {
+            ismouseDowned = true;
             splineFollower.followSpeed = zSpeed;
             playerAnimator.SetBool("isRunning", true);
         }
-        if (Input.GetMouseButton(0))
-        {            
+        if (Input.GetMouseButton(0) && ismouseDowned)
+        {
             Vector3 move = controller.transform.right * Input.GetAxis("Mouse X") * xSpeed;
 
             if (move.magnitude != 0 && count > 1 && CollisionManager.Instance.MoneyPiles.Count > 0)
@@ -46,13 +57,16 @@ public class PlayerController : MonoBehaviour
             controller.Move(move * Time.deltaTime);
             controller.transform.localPosition = new Vector3(Mathf.Clamp(controller.transform.localPosition.x, -3.4f, 3.4f), 0, 0);
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && ismouseDowned)
         {
+            ismouseDowned = false;
             splineFollower.followSpeed = 0;
             playerAnimator.SetBool("isRunning", false);
         }
 
-//elif UNITY_IOS || UNITY_ANDROID
+        slider.value = 1 - Vector3.Distance(transform.position, finishLine.transform.position) / maxDistance;
+        sliderImage.fillAmount = 1 - Vector3.Distance(transform.position, finishLine.transform.position) / maxDistance;
+        //elif UNITY_IOS || UNITY_ANDROID
 
         //if (Input.touchCount > 0)
         //{
@@ -83,7 +97,7 @@ public class PlayerController : MonoBehaviour
         //    }
 
         //}
-//#endif
+        //#endif
     }
 
     public void CreateParticle(Vector3 pos)
@@ -91,13 +105,14 @@ public class PlayerController : MonoBehaviour
         Instantiate(moneyParticle, pos, Quaternion.identity);
     }
 
-    public GameObject RestartButton;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("FinishLine"))
         {
-            RestartButton.SetActive(true);
-            isGameOver = true;
+            splineFollower.followSpeed = 0;
+            playerAnimator.SetBool("isRunning", false);
+            GameManager.Instance.isGameOver = true;
+            StartCoroutine(CollisionManager.Instance.MoveMoneysToPiggy());
         }
     }
 

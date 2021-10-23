@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TapticPlugin;
 
 public class CollisionManager : MonoBehaviour
 {
@@ -31,6 +32,10 @@ public class CollisionManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (GameManager.Instance.isGameOver || !GameManager.Instance.isGameStarted)
+        {
+            return;
+        }
         if (MoneyPiles.Count > 0)
         {
             if (Vector3.Distance(MoneyPiles[0].transform.position, cart.position) > .2f)
@@ -50,12 +55,24 @@ public class CollisionManager : MonoBehaviour
             }
         }
     }
-    int index;
 
+    int index;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("MoneyGroup"))
         {
+            if (MoneyPiles.Count == 1)
+            {
+                pile1.SetActive(true);
+            }
+            if (MoneyPiles.Count == 2)
+            {
+                pile2.SetActive(true);
+            }
+            if (MoneyPiles.Count == 3)
+            {
+                pile3.SetActive(true);
+            }
             if (MoneyPiles.Count > 0)
             {
                 other.transform.DOMoveY(MoneyPiles[MoneyPiles.Count - 1].transform.position.y, .2f).OnComplete(() =>
@@ -70,23 +87,13 @@ public class CollisionManager : MonoBehaviour
                     CollectMoney(other.gameObject, FirstPilePosition.position);
                 });
             }
-            if (MoneyPiles.Count == 1)
-            {
-                pile1.SetActive(true);
-            }
-            else if (MoneyPiles.Count == 2)
-            {
-                pile2.SetActive(true);
-            }
-            else if (MoneyPiles.Count == 3)
-            {
-                pile3.SetActive(true);
-            }
         }
     }
 
     void CollectMoney(GameObject go, Vector3 pos)
     {
+        TapticManager.Impact(ImpactFeedback.Light);
+        SoundManager.Instance.playSound(SoundManager.GameSounds.TakeMoney);
         go.GetComponent<Collider>().enabled = false;
         go.tag = "Untagged";
         go.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
@@ -94,5 +101,34 @@ public class CollisionManager : MonoBehaviour
         go.transform.eulerAngles = new Vector3(90, Random.Range(-45, 45), 0);
         MoneyPiles.Add(go);
         index++;
+    }
+
+    public void ClosePiles()
+    {
+        pile1.SetActive(false);
+        pile2.SetActive(false);
+        pile3.SetActive(false);
+    }
+
+    public Transform piggyBank;
+    public ParticleSystem dollarSign;
+    public IEnumerator MoveMoneysToPiggy()
+    {
+        for (int i = MoneyPiles.Count - 1; i >= 0; i--)
+        {
+            MoneyPiles[i].transform.DOMove(piggyBank.transform.position + new Vector3(0, 3, 0), 1).OnComplete(() =>
+              {
+                  piggyBank.localScale += new Vector3(1.2f / MoneyPiles.Count, 1.2f / MoneyPiles.Count, 1.2f / MoneyPiles.Count);
+              });
+            yield return new WaitForSeconds(.05f);
+        }
+        pile1.SetActive(false);
+        pile2.SetActive(false);
+        pile3.SetActive(false);
+        MoneyPiles[0].transform.parent.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(.5f);
+        piggyBank.gameObject.GetComponent<Animator>().SetTrigger("Jump");
+        StartCoroutine(GameManager.Instance.WaitAndGameWin());
     }
 }
