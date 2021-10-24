@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     public Button TapToStartButton;
     public TextMeshProUGUI LevelText;
     public GameObject PlayText, ContinueText;
+    public GameObject Tutorial1, Tutorial2;
     #endregion
 
     public IEnumerator WaitAndGameWin()
@@ -114,6 +115,10 @@ public class GameManager : MonoBehaviour
     {
         isGameStarted = true;
         TapToStartButton.gameObject.SetActive(false);
+        if (currentLevel == 1)
+        {
+            Tutorial1.SetActive(true);
+        }
     }
 
     public void CheckMoneyAmount()

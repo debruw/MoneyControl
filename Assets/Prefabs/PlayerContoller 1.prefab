@@ -59,7 +59,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 200
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1517,6 +1517,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: TPMaleB (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 1094651891933106222, guid: 9d625b8fb54c8884c97955bc211cd467,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4e7a26ab05ba8ba4ca9a558e463c99da, type: 2}
+    - target: {fileID: 1098671689092796436, guid: 9d625b8fb54c8884c97955bc211cd467,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4e7a26ab05ba8ba4ca9a558e463c99da, type: 2}
     - target: {fileID: 1119669195321866684, guid: 9d625b8fb54c8884c97955bc211cd467,
         type: 3}
       propertyPath: m_Controller
