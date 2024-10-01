@@ -3,6 +3,9 @@ Made with Unity 2019.4.11f1
 
 # Used Technologies
 * DoTween
+* Dreamteck splines
+* Grabbit
+* Toony colors pro
 * Singleton pattern
 * Post processing
 * ProBuilder
